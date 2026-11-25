@@ -1,16 +1,20 @@
 ---
+import Base from "../layouts/Base.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Edward Nguyen — Portfolio</title>
-	</head>
-	<body>
-		<h1>Edward Nguyen</h1>
-		<p>Portfolio under construction.</p>
-	</body>
-</html>
+<Base>
+  <!-- Each section below is a stand-in until its own issue replaces it with a component. -->
+  <main>
+    <section id="about" class="stub"><h2><span>01</span>whoami</h2></section>
+    <section id="projects" class="stub"><h2><span>02</span>Projects</h2></section>
+    <section id="skills" class="stub"><h2><span>03</span>Skills</h2></section>
+    <section id="experience" class="stub"><h2><span>04</span>Experience</h2></section>
+    <section id="contact" class="stub"><h2><span>05</span>Contact</h2></section>
+  </main>
+</Base>
+
+<style>
+  .stub {
+    min-height: 80vh;
+  }
+</style>

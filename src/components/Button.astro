@@ -1,0 +1,53 @@
+---
+// Rectangle button with the flip-down hover panel. Renders a link when given href, otherwise a <button>.
+interface Props {
+  href?: string;
+  type?: "button" | "submit";
+  /** primary = rose fill, secondary = card fill, outline = amber outline */
+  variant?: "primary" | "secondary" | "outline";
+  /** Color of the panel that flips down on hover/focus */
+  flap?: string;
+  class?: string;
+}
+
+const { href, type = "button", variant = "secondary", flap = "var(--sky)", class: cls } = Astro.props;
+const classes = ["btn", "flip", variant, cls];
+const style = `--flap:${flap}`;
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes} style={style}><slot /></a>
+  ) : (
+    <button type={type} class:list={classes} style={style}><slot /></button>
+  )
+}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0 20px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--text);
+    text-decoration: none;
+    font: 600 14px var(--font-mono);
+    cursor: pointer;
+  }
+  .primary {
+    background: var(--rose);
+    border-color: var(--rose);
+    color: #fff;
+  }
+  .outline {
+    background: none;
+    border: 2px solid var(--amber);
+    color: var(--amber);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+</style>
