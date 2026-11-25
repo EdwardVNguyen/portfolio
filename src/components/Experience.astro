@@ -1,0 +1,46 @@
+---
+import { experience } from "../data/experience";
+---
+
+<section id="experience">
+  <h2><span>04</span>Experience</h2>
+  <ul class="tl">
+    {
+      experience.map((e) => (
+        <li>
+          <div class="when">{e.when}</div>
+          <div>
+            <h3>{e.title}</h3>
+            <p class:list={{ muted: e.muted }}>{e.description}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .tl {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .tl li {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+  }
+  .when {
+    font: 13px var(--font-mono);
+    color: var(--lav);
+    padding-top: 4px;
+  }
+  @media (max-width: 760px) {
+    .tl li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+</style>
