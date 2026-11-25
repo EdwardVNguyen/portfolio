@@ -35,6 +35,7 @@ export const projects: Project[] = [
     column: "left",
     aspect: "16/10",
     placeholder: ["#e4dcf7", "#b9a9ec"],
+    img: "/projects/luchess.webp",
   },
   {
     name: "Orion",
@@ -43,10 +44,11 @@ export const projects: Project[] = [
     description:
       "Voice-controlled Chrome extension agent built in 24 hours: talk to your browser and it navigates and acts for you.",
     tags: ["Chrome extension", "AI agent", "Voice"],
-    url: "https://github.com/EdwardVNguyen/orion-agent",
+    url: "https://github.com/rmrfbot/orion-agent",
     column: "right",
     aspect: "4/5",
     placeholder: ["#d9ccf7", "#b8a8ec"],
+    img: "/projects/orion.webp",
   },
   {
     name: "BALDR",
@@ -59,6 +61,7 @@ export const projects: Project[] = [
     column: "left",
     aspect: "21/9",
     placeholder: ["#f0d9ec", "#bba9ee"],
+    img: "/projects/baldr.webp",
   },
   {
     name: "SnailMail",
@@ -71,5 +74,6 @@ export const projects: Project[] = [
     column: "right",
     aspect: "4/3",
     placeholder: ["#e9dcf5", "#c9b6ee"],
+    img: "/projects/snailmail.webp",
   },
 ];
