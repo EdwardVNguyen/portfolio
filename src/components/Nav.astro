@@ -7,23 +7,40 @@ import { sections } from "../data/site";
 </nav>
 
 <script>
-  // Highlight the link for the section currently in the middle of the screen.
+  // Highlight the link for the last section whose top has passed 40% of the way down the screen.
+  // Short sections (like Skills) still get their turn, and nothing is highlighted over the hero.
   const links = [...document.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Sections"] a')];
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        for (const a of links) {
-          const on = a.getAttribute("href") === `#${e.target.id}`;
-          a.classList.toggle("on", on);
-          if (on) a.setAttribute("aria-current", "location");
-          else a.removeAttribute("aria-current");
-        }
+  const sections = [...document.querySelectorAll<HTMLElement>("main section[id]")];
+  let current: string | undefined;
+  let ticking = false;
+
+  const update = () => {
+    ticking = false;
+    const line = innerHeight * 0.4;
+    const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
+    const id = atBottom ? sections.at(-1)?.id : sections.filter((s) => s.getBoundingClientRect().top <= line).at(-1)?.id;
+    if (id === current) return;
+    current = id;
+    for (const a of links) {
+      const on = a.getAttribute("href") === `#${id}`;
+      a.classList.toggle("on", on);
+      if (on) a.setAttribute("aria-current", "location");
+      else a.removeAttribute("aria-current");
+    }
+  };
+
+  addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
       }
     },
-    { rootMargin: "-45% 0px -50% 0px" },
+    { passive: true },
   );
-  document.querySelectorAll("main section[id]").forEach((s) => io.observe(s));
+  addEventListener("resize", update);
+  update();
 </script>
 
 <style>
@@ -45,9 +62,12 @@ import { sections } from "../data/site";
   a {
     --flap: var(--rose);
     --flap-ink: #fff;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
     color: var(--sub);
     text-decoration: none;
-    padding: 8px 12px;
+    padding: 0 12px;
     white-space: nowrap;
     flex-shrink: 0;
   }

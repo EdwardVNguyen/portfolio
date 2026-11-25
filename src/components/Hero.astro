@@ -111,12 +111,18 @@ import { site } from "../data/site";
     }
   };
 
+  // Start once the page has loaded and the browser is idle, so the rain never competes with first paint.
   size();
-  frame();
+  running = false;
+  const start = () => (still ? frame() : wake());
+  const whenIdle = () => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 3000 }) : setTimeout(start, 1500));
+  if (document.readyState === "complete") whenIdle();
+  else addEventListener("load", whenIdle, { once: true });
+
   // Resizing clears the canvas, so redraw right away if the loop isn't running.
   addEventListener("resize", () => {
     size();
-    if (!running) frame();
+    if (!running) start();
   });
   addEventListener("scroll", wake, { passive: true });
   document.addEventListener("visibilitychange", wake);
