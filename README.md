@@ -1,5 +1,8 @@
 # Portfolio
 ![Project preview](./public/img/preview.png)
+<p align="center">
+   <a href="https://ednguy.dev/">Check my portfolio out</a>
+</p>
 
 ## Overview
 Built with [Astro](https://astro.build) and deployed on Cloudflare Workers (static assets). Taken parallax inspiration from [raseraa0](https://github.com/Raseraa0/raseraa0.github.io/blob/main/README.md?plain=1) portfolio website, and the theme was inspired by Trigger Studio's Cyberpunk Edgerunners 2 "Watson".
