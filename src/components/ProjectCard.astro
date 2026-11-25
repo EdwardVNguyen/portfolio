@@ -141,6 +141,13 @@ const { project: p, order } = Astro.props;
     margin-top: 12px;
     font: 600 13px var(--font-mono);
   }
+  /* 44px tap target; the negative margin keeps the card's layout the same as the design. */
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-block: -13px;
+  }
 
   /* Single column: the stacks are flattened (see Projects.astro) and cards follow data order. */
   @media (max-width: 700px) {
