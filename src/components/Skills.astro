@@ -1,11 +1,88 @@
 ---
-// Placeholder until issue #6 builds this section.
+import { skills } from "../data/skills";
 ---
 
-<section id="skills" class="stub"><h2><span>03</span>Skills</h2></section>
+<section id="skills">
+  <h2><span>03</span>Skills</h2>
+  <ul class="sgrid">
+    {
+      skills.map((s) => (
+        <li class="st" style={`--c:${s.color}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill={s.color} d={s.path} />
+          </svg>
+          <span>{s.name}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
 
 <style>
-  .stub {
-    min-height: 80vh;
+  .sgrid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .st {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    padding: 26px 10px 22px;
+    background: #171034;
+    box-shadow: 0 10px 24px rgba(8, 4, 20, 0.45);
+    transition:
+      transform 0.25s,
+      box-shadow 0.25s;
+  }
+  .st svg {
+    width: 56px;
+    height: 56px;
+    transition: filter 0.25s;
+  }
+  .st span {
+    font: 600 13px var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-align: center;
+  }
+  .st:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(8, 4, 20, 0.55);
+  }
+  .st:hover svg {
+    filter: drop-shadow(0 0 12px var(--c));
+  }
+  @media (max-width: 860px) {
+    .sgrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 420px) {
+    .sgrid {
+      gap: 10px;
+    }
+    .st {
+      padding: 18px 6px 16px;
+    }
+    .st svg {
+      width: 42px;
+      height: 42px;
+    }
+    .st span {
+      font-size: 11px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .st {
+      transition: none;
+    }
+    .st:hover {
+      transform: none;
+    }
   }
 </style>
