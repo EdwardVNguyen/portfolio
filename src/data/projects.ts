@@ -71,5 +71,6 @@ export const projects: Project[] = [
     column: "right",
     aspect: "4/3",
     placeholder: ["#e9dcf5", "#c9b6ee"],
+    img: "/projects/snailmail.webp",
   },
 ];
