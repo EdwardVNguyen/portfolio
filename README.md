@@ -1,6 +1,6 @@
 # portfolio
 
-Edward Nguyen's portfolio, built with [Astro](https://astro.build) and deployed on Cloudflare Pages.
+Edward Nguyen's portfolio, built with [Astro](https://astro.build) and deployed on Cloudflare Workers (static assets).
 
 ## Commands
 
@@ -20,4 +20,4 @@ Edward Nguyen's portfolio, built with [Astro](https://astro.build) and deployed 
 
 ## Deploy
 
-Cloudflare Pages, connected to this repo: build command `npm run build`, output directory `dist`. Node version comes from `.node-version`.
+Cloudflare Workers Builds, connected to this repo. Build command `npm run build`; `wrangler.jsonc` serves `dist/` as static assets. `main` deploys to production, other branches upload a preview version. Node version comes from `.node-version`.
