@@ -1,0 +1,121 @@
+/* Design tokens and global styles. Values come from portfolio-designs/reference/index.html. */
+:root {
+  color-scheme: dark;
+  --ground: #1d1440;
+  --card: #2a1f58;
+  --line: #43377a;
+  --text: #f3efff;
+  --sub: #b5abd6;
+  --rose: #ff3f72;
+  --sky: #6fd3f2;
+  --lav: #c2b2ff;
+  --amber: #ffd36e;
+  --footer: #0f0914;
+
+  --font-head: "Chakra Petch", sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --cut: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+* {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font: 17px/1.6 var(--font-body);
+  overflow-x: clip;
+}
+
+a {
+  color: var(--sky);
+}
+a:hover {
+  color: var(--rose);
+}
+
+:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 3px;
+}
+
+/* Content sections: one centered column; wider or full-bleed sections override this. */
+section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 110px) max(5vw, 16px) 0;
+}
+
+h2 {
+  font: 700 clamp(30px, 4vw, 44px) / 1.05 var(--font-head);
+  margin: 0 0 0.6em;
+}
+/* Section number, e.g. the "01" in "01 whoami" */
+h2 span {
+  color: var(--rose);
+  font-family: var(--font-mono);
+  font-size: 0.55em;
+  margin-right: 0.4em;
+}
+
+h3 {
+  font: 700 21px/1.2 var(--font-head);
+  margin: 0 0 0.3em;
+}
+
+p {
+  margin: 0.4em 0 0.9em;
+  max-width: 68ch;
+}
+
+.muted {
+  color: var(--sub);
+}
+
+/* Flip-down hover: a colored panel folds down from the top edge behind the label.
+   Set --flap for the panel color and --flap-ink for the label color while it shows. */
+.flip {
+  position: relative;
+  z-index: 0;
+  perspective: 500px;
+  transition: color 0.2s;
+}
+.flip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--flap, var(--sky));
+  transform-origin: 50% 0;
+  backface-visibility: hidden;
+  transform: translate3d(0, 105%, 0) rotateX(-112deg);
+  transition: transform 0.2s ease;
+}
+.flip:hover:not(:disabled)::after,
+.flip:focus-visible::after {
+  transform: rotateX(0) translateZ(0);
+}
+.flip:hover:not(:disabled),
+.flip:focus-visible {
+  color: var(--flap-ink, var(--ground));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .flip::after {
+    transition: none;
+  }
+}

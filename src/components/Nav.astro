@@ -1,0 +1,69 @@
+---
+import { sections } from "../data/site";
+---
+
+<nav aria-label="Sections">
+  {sections.map((s) => <a class="flip" href={`#${s.id}`}>{s.label}</a>)}
+</nav>
+
+<script>
+  // Highlight the link for the section currently in the middle of the screen.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Sections"] a')];
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        for (const a of links) {
+          const on = a.getAttribute("href") === `#${e.target.id}`;
+          a.classList.toggle("on", on);
+          if (on) a.setAttribute("aria-current", "location");
+          else a.removeAttribute("aria-current");
+        }
+      }
+    },
+    { rootMargin: "-45% 0px -50% 0px" },
+  );
+  document.querySelectorAll("main section[id]").forEach((s) => io.observe(s));
+</script>
+
+<style>
+  nav {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    gap: 2px;
+    padding: 5px;
+    background: rgba(16, 11, 32, 0.82);
+    backdrop-filter: blur(10px);
+    font: 600 13px var(--font-mono);
+    max-width: calc(100vw - 24px);
+    overflow-x: auto;
+  }
+  a {
+    --flap: var(--rose);
+    --flap-ink: #fff;
+    color: var(--sub);
+    text-decoration: none;
+    padding: 8px 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  /* Tighten so all five links fit on a 360px phone instead of scrolling. */
+  @media (max-width: 420px) {
+    nav {
+      font-size: 12px;
+    }
+    a {
+      padding-inline: 5px;
+    }
+  }
+  a.on {
+    --flap: var(--sky);
+    --flap-ink: var(--ground);
+    color: #fff;
+    background: var(--rose);
+  }
+</style>
