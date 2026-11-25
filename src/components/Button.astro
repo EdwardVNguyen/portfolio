@@ -46,6 +46,11 @@ const style = `--flap:${flap}`;
     border: 2px solid var(--amber);
     color: var(--amber);
   }
+  /* Scoped color rules above outrank the global .flip ones, so restate the label color while the flap shows. */
+  .btn:hover:not(:disabled),
+  .btn:focus-visible {
+    color: var(--flap-ink, var(--ground));
+  }
   .btn:disabled {
     opacity: 0.6;
     cursor: wait;
