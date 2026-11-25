@@ -1,9 +1,10 @@
-# portfolio
+# Portfolio
+![Project preview](./public/img/preview.png)
 
-Edward Nguyen's portfolio, built with [Astro](https://astro.build) and deployed on Cloudflare Workers (static assets).
+## Overview
+Built with [Astro](https://astro.build) and deployed on Cloudflare Workers (static assets). Taken parallax inspiration from [raseraa0](https://github.com/Raseraa0/raseraa0.github.io/blob/main/README.md?plain=1) portfolio website, and the theme was inspired by Trigger Studio's Cyberpunk Edgerunners 2 "Watson".
 
 ## Commands
-
 | Command             | Action                                      |
 | ------------------- | ------------------------------------------- |
 | `npm install`       | Install dependencies                        |
