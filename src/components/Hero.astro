@@ -1,0 +1,228 @@
+---
+import { site } from "../data/site";
+---
+
+<!-- Full-screen parallax city. Each .layer moves down by scrollY × data-f while scrolling. -->
+<header class="hero" aria-label={site.name}>
+  <div class="layer px sky" data-f="0.1" style="background-image: url(/layers/sky.png)"></div>
+  <div class="layer" data-f="0.15"><div class="bloom"></div></div>
+  <div class="layer px" data-f="0.3" style="background-image: url(/layers/far.png)"></div>
+  <div class="layer name" data-f="0.38">
+    <h1>{site.name}</h1>
+    <p>full-stack developer</p>
+  </div>
+  <div class="layer px" data-f="0.5" style="background-image: url(/layers/mid.png), url(/layers/rail.png)"></div>
+  <div class="fog"></div>
+  <div class="layer px" data-f="0" style="background-image: url(/layers/front.png)"></div>
+  <canvas id="rain" aria-hidden="true"></canvas>
+  <div id="grain" aria-hidden="true"></div>
+  <div class="cue" aria-hidden="true">scroll ↓</div>
+</header>
+
+<script>
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hero = document.querySelector<HTMLElement>(".hero")!;
+  const layers = [...hero.querySelectorAll<HTMLElement>(".layer")];
+  const visible = () => !document.hidden && scrollY < hero.offsetHeight;
+
+  // Parallax: one transform update per frame, capped once the hero has scrolled away.
+  let ticking = false;
+  const par = () => {
+    ticking = false;
+    const y = Math.min(scrollY, hero.offsetHeight);
+    for (const l of layers) l.style.transform = `translate3d(0,${(y * +l.dataset.f!).toFixed(1)}px,0)`;
+  };
+  if (!still) {
+    addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(par);
+        }
+      },
+      { passive: true },
+    );
+  }
+
+  // Rain: streaks plus slow drifting specks. Pauses off screen or in a hidden tab; drawn once when motion is reduced.
+  type Drop = { x: number; y: number; l: number; v: number };
+  type Speck = { x: number; y: number; v: number };
+  const cv = hero.querySelector<HTMLCanvasElement>("#rain")!;
+  const cx = cv.getContext("2d")!;
+  let drops: Drop[] = [];
+  let specks: Speck[] = [];
+  let running = true;
+
+  const size = () => {
+    cv.width = hero.offsetWidth;
+    cv.height = hero.offsetHeight;
+    const n = Math.round((cv.width * cv.height) / 9000);
+    drops = Array.from({ length: n }, () => ({
+      x: Math.random() * cv.width,
+      y: Math.random() * cv.height,
+      l: 10 + Math.random() * 26,
+      v: 7 + Math.random() * 9,
+    }));
+    specks = Array.from({ length: n * 2 }, () => ({
+      x: Math.random() * cv.width,
+      y: Math.random() * cv.height,
+      v: 0.2 + Math.random() * 0.6,
+    }));
+  };
+
+  const frame = () => {
+    cx.clearRect(0, 0, cv.width, cv.height);
+    cx.strokeStyle = "rgba(255,255,255,.45)";
+    cx.lineWidth = 1;
+    cx.beginPath();
+    for (const d of drops) {
+      cx.moveTo(d.x, d.y);
+      cx.lineTo(d.x - 1, d.y + d.l);
+      if (!still) {
+        d.y += d.v;
+        if (d.y > cv.height) {
+          d.y = -d.l;
+          d.x = Math.random() * cv.width;
+        }
+      }
+    }
+    cx.stroke();
+    cx.fillStyle = "rgba(255,255,255,.7)";
+    for (const s of specks) {
+      cx.fillRect(s.x, s.y, 1.5, 1.5);
+      if (!still) {
+        s.y += s.v;
+        s.x += Math.sin(s.y / 40) * 0.3;
+        if (s.y > cv.height) {
+          s.y = 0;
+          s.x = Math.random() * cv.width;
+        }
+      }
+    }
+    if (!still && visible()) requestAnimationFrame(frame);
+    else running = false;
+  };
+
+  const wake = () => {
+    if (!running && !still && visible()) {
+      running = true;
+      frame();
+    }
+  };
+
+  size();
+  frame();
+  // Resizing clears the canvas, so redraw right away if the loop isn't running.
+  addEventListener("resize", () => {
+    size();
+    if (!running) frame();
+  });
+  addEventListener("scroll", wake, { passive: true });
+  document.addEventListener("visibilitychange", wake);
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 560px;
+    overflow: hidden;
+    background: #230b2b;
+  }
+  .px {
+    background-repeat: repeat-x;
+    background-size: auto 64%;
+    background-position: center bottom;
+    image-rendering: pixelated;
+  }
+  .px.sky {
+    background-size: 100% 100%;
+  }
+  @media (max-width: 600px) {
+    .px {
+      background-size: auto 52%;
+    }
+  }
+  .layer {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+  }
+  .bloom {
+    position: absolute;
+    left: 24%;
+    top: -20%;
+    width: 52vw;
+    height: 100vh;
+    mix-blend-mode: screen;
+    background: radial-gradient(
+      closest-side,
+      #fff 0%,
+      rgba(255, 255, 255, 0.92) 30%,
+      rgba(255, 240, 252, 0.5) 60%,
+      transparent 100%
+    );
+  }
+  .fog {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 30%, rgba(246, 238, 251, 0.45) 70%, rgba(230, 220, 250, 0.15));
+  }
+  .name {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    text-align: center;
+    padding: clamp(96px, 15vh, 150px) 5vw 0;
+  }
+  .name h1 {
+    margin: 0;
+    font: 700 clamp(44px, 9vw, 120px) / 0.95 var(--font-head);
+    color: var(--ground);
+    letter-spacing: -0.01em;
+    text-shadow:
+      3px 0 rgba(255, 63, 114, 0.45),
+      -3px 0 rgba(111, 211, 242, 0.45),
+      0 0 28px rgba(255, 255, 255, 0.9);
+  }
+  .name p {
+    margin: 0.6em 0 0;
+    font: 600 clamp(14px, 1.8vw, 19px) var(--font-mono);
+    color: #2b1f5e;
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.95);
+  }
+  #rain,
+  #grain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  #grain {
+    opacity: 0.3;
+    mix-blend-mode: soft-light;
+    background-image: var(--grain);
+  }
+  .cue {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font: 600 12px var(--font-mono);
+    color: var(--sub);
+    z-index: 3;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    50% {
+      transform: translate(-50%, 6px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cue {
+      animation: none;
+    }
+  }
+</style>
