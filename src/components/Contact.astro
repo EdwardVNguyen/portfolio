@@ -36,6 +36,8 @@ const layers = [
         >
       </div>
       <label for="cf-msg">Message<textarea id="cf-msg" name="message" rows="5" required></textarea></label>
+      <!-- Spam trap: hidden from people, filled in by bots. Formspree silently drops submissions that include it. -->
+      <label class="trap" aria-hidden="true">Leave this empty<input name="_gotcha" tabindex="-1" autocomplete="off" /></label>
       <div class="send">
         <Button type="submit" variant="primary" flap="var(--sky)">Send message</Button>
         <span id="cf-status" role="status"></span>
@@ -148,6 +150,10 @@ const layers = [
     border-color: var(--rose);
     box-shadow: 0 0 0 1px var(--rose);
   }
+  .trap {
+    position: absolute;
+    left: -9999px;
+  }
   .cform [aria-invalid="true"] {
     border-color: #ff8aa6;
   }
@@ -225,7 +231,7 @@ const layers = [
     e.preventDefault();
     const f = Object.fromEntries(new FormData(form)) as Record<string, string>;
     let bad = false;
-    for (const el of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input,textarea")) {
+    for (const el of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("[required]")) {
       const ok = !!el.value.trim() && (el.type !== "email" || /^\S+@\S+\.\S+$/.test(el.value));
       el.setAttribute("aria-invalid", String(!ok));
       if (!ok) bad = true;
@@ -243,7 +249,10 @@ const layers = [
     btn.disabled = true;
     st.textContent = "Sending…";
     try {
-      const r = await fetch(endpoint, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) });
+      // Formspree uses `subject` for the notification email's subject and `email` as its Reply-To.
+      const body = new FormData(form);
+      body.set("subject", "Portfolio message from " + f.name);
+      const r = await fetch(endpoint, { method: "POST", headers: { Accept: "application/json" }, body });
       if (!r.ok) throw new Error(String(r.status));
       form.reset();
       st.textContent = "Thanks, your message was sent.";

@@ -10,7 +10,7 @@ export const site = {
   linkedin: "https://www.linkedin.com/",
   resume: "/resume.pdf",
   // Leave empty to send the contact form through the visitor's email app (mailto).
-  formEndpoint: "",
+  formEndpoint: "https://formspree.io/f/mvkadnpl",
 };
 
 // Page sections in order; drives the top nav and the footer links.
