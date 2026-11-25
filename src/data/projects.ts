@@ -61,6 +61,7 @@ export const projects: Project[] = [
     column: "left",
     aspect: "21/9",
     placeholder: ["#f0d9ec", "#bba9ee"],
+    img: "/projects/baldr.webp",
   },
   {
     name: "SnailMail",
