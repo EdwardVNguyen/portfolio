@@ -43,7 +43,7 @@ export const projects: Project[] = [
     description:
       "Voice-controlled Chrome extension agent built in 24 hours: talk to your browser and it navigates and acts for you.",
     tags: ["Chrome extension", "AI agent", "Voice"],
-    url: "https://github.com/EdwardVNguyen/orion-agent",
+    url: "https://github.com/rmrfbot/orion-agent",
     column: "right",
     aspect: "4/5",
     placeholder: ["#d9ccf7", "#b8a8ec"],
