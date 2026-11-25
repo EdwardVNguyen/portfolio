@@ -1,0 +1,59 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import { projects } from "../data/projects";
+
+// Keep each card's position in the data so the single-column layout can restore that order.
+const indexed = projects.map((project, order) => ({ project, order }));
+const left = indexed.filter((x) => x.project.column === "left");
+const right = indexed.filter((x) => x.project.column === "right");
+---
+
+<section id="projects" class="wide">
+  <h2><span>02</span>Projects</h2>
+  <div class="stacks">
+    <div class="stack">
+      {left.map((x) => <ProjectCard {...x} />)}
+    </div>
+    <div class="stack">
+      {right.map((x) => <ProjectCard {...x} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Wider than the usual 1100px column so the cards get more room. */
+  .wide {
+    max-width: 1320px;
+  }
+  /* Keep the heading lined up with the 1100px content column of the other sections. */
+  h2 {
+    max-width: calc(1100px - 2 * max(5vw, 16px));
+    margin-inline: auto;
+  }
+
+  /* Two columns at 2fr : 1fr, each stacking its cards on its own, so heights are uneven. */
+  .stacks {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-content: start;
+  }
+
+  /* One column: flatten the stacks so every card sits in one flex column,
+     then ProjectCard's `order` puts them back in data order. */
+  @media (max-width: 700px) {
+    .stacks {
+      display: flex;
+      flex-direction: column;
+    }
+    .stack {
+      display: contents;
+    }
+  }
+</style>
