@@ -48,6 +48,7 @@ export const projects: Project[] = [
     column: "right",
     aspect: "4/5",
     placeholder: ["#d9ccf7", "#b8a8ec"],
+    img: "/projects/orion.webp",
   },
   {
     name: "BALDR",
