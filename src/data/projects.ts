@@ -35,6 +35,7 @@ export const projects: Project[] = [
     column: "left",
     aspect: "16/10",
     placeholder: ["#e4dcf7", "#b9a9ec"],
+    img: "/projects/luchess.webp",
   },
   {
     name: "Orion",
