@@ -8,16 +8,20 @@ interface Props {
   /** Color of the panel that flips down on hover/focus */
   flap?: string;
   class?: string;
+  /** Open the link in a new tab. */
+  newTab?: boolean;
 }
 
-const { href, type = "button", variant = "secondary", flap = "var(--sky)", class: cls } = Astro.props;
+const { href, type = "button", variant = "secondary", flap = "var(--sky)", class: cls, newTab } = Astro.props;
 const classes = ["btn", "flip", variant, cls];
 const style = `--flap:${flap}`;
 ---
 
 {
   href ? (
-    <a href={href} class:list={classes} style={style}><slot /></a>
+    <a href={href} class:list={classes} style={style} {...(newTab && { target: "_blank", rel: "noopener" })}>
+      <slot />
+    </a>
   ) : (
     <button type={type} class:list={classes} style={style}><slot /></button>
   )

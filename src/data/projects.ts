@@ -10,6 +10,8 @@ export interface Project {
   tags: string[];
   /** Source code link; omit to hide the "source ↗" link. */
   url?: string;
+  /** Live site link; omit to hide the "live ↗" link. */
+  live?: string;
   /** Small badge next to the title. */
   status?: "wip";
   /** Desktop column: "left" is the wide (2fr) column, "right" the narrow (1fr) one. */
@@ -32,6 +34,7 @@ export const projects: Project[] = [
       "A chess study app built on Luhmann's Zettelkasten method. Each note is a game, linked to related games and openings so you learn through connections instead of memorization. Includes a book-like read mode, a shared library of studies, and opening-focused practice games.",
     tags: ["React", "Go", "PostgreSQL", "Self-hosted"],
     url: "https://github.com/EdwardVNguyen/LuChess",
+    live: "https://luchess.us/",
     column: "left",
     aspect: "16/10",
     placeholder: ["#e4dcf7", "#b9a9ec"],

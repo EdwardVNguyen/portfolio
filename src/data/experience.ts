@@ -11,10 +11,16 @@ export interface ExperienceEntry {
 
 export const experience: ExperienceEntry[] = [
   {
-    when: "2026 – present",
-    title: "Volunteer Web Developer · IT Committee",
+    when: "Nov 2026",
+    title: "Open-source contributor · career-ops",
     description:
-      "Building the frontend of a nonprofit's website in Astro, with a focus on semantic, accessible markup and responsive layouts.",
+      "Merged a fix into career-ops, an 82k-star open-source AI agent: refactored its JavaScript regex so Unicode bullets in scraped job data parse correctly.",
+  },
+  {
+    when: "May 2026 – present",
+    title: "Web Developer · Southwest Union of Vietnamese Student Associations",
+    description:
+      "Building the frontend of SWUVSA's website in Astro, working with the design team to turn mockups into responsive, accessible pages.",
   },
   {
     when: "Jan – May 2025",
@@ -26,7 +32,7 @@ export const experience: ExperienceEntry[] = [
     when: "exp. May 2027",
     title: "B.S. Computer Science · University of Houston",
     description:
-      "Fall 2026: Data Science I, Computer Graphics, Digital Image Processing, Intro to Game Development.",
+      "Fall 2026: Computer Graphics, Digital Image Processing, Intro to Game Development.",
     muted: true,
   },
 ];

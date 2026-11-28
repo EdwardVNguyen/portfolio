@@ -1,6 +1,7 @@
 // Site-wide details used across the page.
 export const site = {
   name: "Edward Nguyen",
+  location: "Houston, TX",
   title: "Edward Nguyen — Portfolio",
   description:
     "Edward Nguyen — full-stack developer and CS senior at the University of Houston, building web apps with React, Go and PostgreSQL.",

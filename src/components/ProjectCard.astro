@@ -31,9 +31,18 @@ const { project: p, order } = Astro.props;
     <p>{p.description}</p>
     <div class="tags">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
     {
-      p.url && (
+      (p.live || p.url) && (
         <div class="links">
-          <a href={p.url}>source ↗</a>
+          {p.live && (
+            <a href={p.live} target="_blank" rel="noopener">
+              live ↗
+            </a>
+          )}
+          {p.url && (
+            <a href={p.url} target="_blank" rel="noopener">
+              source ↗
+            </a>
+          )}
         </div>
       )
     }
